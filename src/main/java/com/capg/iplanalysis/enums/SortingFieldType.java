@@ -40,6 +40,16 @@ public enum SortingFieldType {
 			return comparator.reversed();
 		}
 
+	},
+
+	BEST_STRIKERATE_WITH_BOUNDARIES {
+
+		@Override
+		public Comparator<MostRuns> getComparator() {
+			Comparator<MostRuns> comparator = BOUNDARIES.getComparator().thenComparing(STRIKERATE.getComparator());
+			return comparator;
+		}
+
 	};
 
 	public abstract Comparator<MostRuns> getComparator();
