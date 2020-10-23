@@ -25,11 +25,19 @@ public class IPLAnalyserTest {
 		listRuns = iplAnalyser.loadCSVFile(IPL_MOST_RUNS_CSV_FILE_PATH);
 	}
 
+	/**
+	 * @throws IplAnalysisException
+	 * Checks whether Files is uploaded
+	 */
 	@Test
 	public void givenCSVRunsFIle_ShouldReturnRecords() throws IplAnalysisException {
 		assertEquals(100, listRuns.size());
 	}
 
+	/**
+	 * @throws IplAnalysisException
+	 * Check for Highest Average Score
+	 */
 	@Test
 	public void givenCSVRunsFile_ShouldReturnHighestAverageScore() throws IplAnalysisException {
 		listRuns = iplAnalyser.getSortedDataByField(listRuns, SortingFieldType.AVERAGESCORE);
@@ -37,11 +45,26 @@ public class IPLAnalyserTest {
 		assertEquals(83.2, Double.valueOf(listRuns.get(0).getAvg()));
 	}
 	
+	/**
+	 * @throws IplAnalysisException
+	 * check for top Strike Rate
+	 */
 	@Test
 	public void givenCSVRunsFile_ShouldReturnTopStrikingRates() throws IplAnalysisException {
 		listRuns = iplAnalyser.getSortedDataByField(listRuns,SortingFieldType.STRIKERATE);
 		System.out.println("Player with Highest Strike Rate is :"+listRuns.get(0));
 		assertEquals(333.33, Double.valueOf(listRuns.get(0).getSr()));
+	}
+	
+	/**
+	 * @throws IplAnalysisException
+	 * Checking Maximum Boundaries 
+	 */
+	@Test
+	public void	givenCSVRunsFile_ShouldReturnMaximumBoundaries() throws IplAnalysisException {
+		listRuns = iplAnalyser.getSortedDataByField(listRuns,SortingFieldType.BOUNDARIES);
+		System.out.println("Player With Max Boundaries; "+listRuns.get(0));
+		assertEquals(83, Double.valueOf(listRuns.get(0).getFours())+Double.valueOf(listRuns.get(0).getSixes()));
 	}
 	
 	
