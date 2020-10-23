@@ -13,16 +13,17 @@ public class MostRuns {
 	@CsvBindByName(column = "HS", required = true) private String highScore;
 	@CsvBindByName(column = "Avg", required = true) private String avg;
 	@CsvBindByName(column = "BF", required = true) private String bf;
+	@CsvBindByName(column = "SR", required = true) private String sr;
 	@CsvBindByName(column = "100", required = true) private String hundreds;
-	@Override
-	public String toString() {
-		return "MostRuns [pos=" + pos + ", player=" + player + ", mat=" + mat + ", inns=" + inns + ", not_out="
-				+ not_out + ", runs=" + runs + ", highScore=" + highScore + ", avg=" + avg + ", bf=" + bf
-				+ ", hundreds=" + hundreds + ", fiftys=" + fiftys + ", fours=" + fours + ", sixes=" + sixes + "]";
-	}
 	@CsvBindByName(column = "50", required = true) private String fiftys;
 	@CsvBindByName(column = "4s", required = true) private String fours;
 	@CsvBindByName(column = "6s", required = true) private String sixes;
+	public String getSr() {
+		return sr;
+	}
+	public void setSr(String sr) {
+		this.sr = sr;
+	}
 	public String getPos() {
 		return pos;
 	}
@@ -100,6 +101,12 @@ public class MostRuns {
 	}
 	public void setSixes(String sixes) {
 		this.sixes = sixes;
+	}
+	@Override
+	public String toString() {
+		return "MostRuns [pos=" + pos + ", player=" + player + ", mat=" + mat + ", inns=" + inns + ", not_out="
+				+ not_out + ", runs=" + runs + ", highScore=" + highScore + ", avg=" + avg + ", bf=" + bf + ", sr=" + sr
+				+ ", hundreds=" + hundreds + ", fiftys=" + fiftys + ", fours=" + fours + ", sixes=" + sixes + "]";
 	}
 	
 	
