@@ -17,6 +17,20 @@ public enum SortingFieldType {
 			});
 			return comparator.reversed();
 		}
+	}, 
+	STRIKERATE{
+
+		@Override
+		public Comparator<MostRuns> getComparator() {
+			Comparator<MostRuns> comparator = Comparator.comparing(obj -> {
+				if(((MostRuns) obj).getSr().contains("-")) {
+					((MostRuns) obj).setSr("0");
+				}
+				return Float.parseFloat(((MostRuns) obj).getSr());
+			});
+			return comparator.reversed();
+		}
+		
 	};
 
 	public abstract Comparator<MostRuns> getComparator();
