@@ -67,6 +67,17 @@ public class IPLAnalyserTest {
 		assertEquals(83, Double.valueOf(listRuns.get(0).getFours())+Double.valueOf(listRuns.get(0).getSixes()));
 	}
 	
+	/**
+	 * @throws IplAnalysisException
+	 * Checking BEstStrikeRate with Max Boundaries
+	 */
+	@Test
+	public void givenCSVRunsFile_ShouldReturnBestStrikeRateWIthBoundaries() throws IplAnalysisException {
+		listRuns = iplAnalyser.getSortedDataByField(listRuns,SortingFieldType.BEST_STRIKERATE_WITH_BOUNDARIES);
+		System.out.println("Player With BEstStrikeRate and Max Boundaries; "+listRuns.get(0));
+		assertEquals("Andre Russell", listRuns.get(0).getPlayer());
+	}
+	
 	
 
 }
