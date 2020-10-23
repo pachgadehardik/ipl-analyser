@@ -33,7 +33,17 @@ public class IPLAnalyserTest {
 	@Test
 	public void givenCSVRunsFile_ShouldReturnHighestAverageScore() throws IplAnalysisException {
 		listRuns = iplAnalyser.getSortedDataByField(listRuns, SortingFieldType.AVERAGESCORE);
+		System.out.println("Player with Highest Strike Average Score is :"+listRuns.get(0));
 		assertEquals(83.2, Double.valueOf(listRuns.get(0).getAvg()));
 	}
+	
+	@Test
+	public void givenCSVRunsFile_ShouldReturnTopStrikingRates() throws IplAnalysisException {
+		listRuns = iplAnalyser.getSortedDataByField(listRuns,SortingFieldType.STRIKERATE);
+		System.out.println("Player with Highest Strike Rate is :"+listRuns.get(0));
+		assertEquals(333.33, Double.valueOf(listRuns.get(0).getSr()));
+	}
+	
+	
 
 }
