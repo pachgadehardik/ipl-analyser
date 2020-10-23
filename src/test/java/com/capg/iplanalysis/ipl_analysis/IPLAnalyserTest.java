@@ -12,6 +12,7 @@ import com.capg.iplanalysis.Pojos.MostRuns;
 import com.capg.iplanalysis.Service.IplAnalyser;
 import com.capg.iplanalysis.enums.PlayerType;
 import com.capg.iplanalysis.enums.SortingFieldType;
+import com.google.gson.Gson;
 
 public class IPLAnalyserTest {
 
@@ -26,8 +27,7 @@ public class IPLAnalyserTest {
 	}
 
 	/**
-	 * @throws IplAnalysisException
-	 * Checks whether Files is uploaded
+	 * @throws IplAnalysisException Checks whether Files is uploaded
 	 */
 	@Test
 	public void givenCSVRunsFIle_ShouldReturnRecords() throws IplAnalysisException {
@@ -35,49 +35,65 @@ public class IPLAnalyserTest {
 	}
 
 	/**
-	 * @throws IplAnalysisException
-	 * Check for Highest Average Score
+	 * @throws IplAnalysisException Check for Highest Average Score
 	 */
 	@Test
 	public void givenCSVRunsFile_ShouldReturnHighestAverageScore() throws IplAnalysisException {
 		listRuns = iplAnalyser.getSortedDataByField(listRuns, SortingFieldType.AVERAGESCORE);
-		System.out.println("Player with Highest Strike Average Score is :"+listRuns.get(0));
-		assertEquals(83.2, Double.valueOf(listRuns.get(0).getAvg()));
+		System.out.println("Player with Highest Strike Average Score is :" + listRuns.get(0));
+		String toJSon = new Gson().toJson(listRuns);
+        MostRuns[] mostRuns = new Gson().fromJson(toJSon, MostRuns[].class);
+		assertEquals(83.2, Double.valueOf(mostRuns[0].getAvg()));
 	}
-	
+
 	/**
-	 * @throws IplAnalysisException
-	 * check for top Strike Rate
+	 * @throws IplAnalysisException check for top Strike Rate
 	 */
 	@Test
 	public void givenCSVRunsFile_ShouldReturnTopStrikingRates() throws IplAnalysisException {
-		listRuns = iplAnalyser.getSortedDataByField(listRuns,SortingFieldType.STRIKERATE);
-		System.out.println("Player with Highest Strike Rate is :"+listRuns.get(0));
+		listRuns = iplAnalyser.getSortedDataByField(listRuns, SortingFieldType.STRIKERATE);
+		System.out.println("Player with Highest Strike Rate is :" + listRuns.get(0));
 		assertEquals(333.33, Double.valueOf(listRuns.get(0).getSr()));
 	}
-	
+
 	/**
-	 * @throws IplAnalysisException
-	 * Checking Maximum Boundaries 
+	 * @throws IplAnalysisException Checking Maximum Boundaries
 	 */
 	@Test
-	public void	givenCSVRunsFile_ShouldReturnMaximumBoundaries() throws IplAnalysisException {
-		listRuns = iplAnalyser.getSortedDataByField(listRuns,SortingFieldType.BOUNDARIES);
-		System.out.println("Player With Max Boundaries; "+listRuns.get(0));
-		assertEquals(83, Double.valueOf(listRuns.get(0).getFours())+Double.valueOf(listRuns.get(0).getSixes()));
+	public void givenCSVRunsFile_ShouldReturnMaximumBoundaries() throws IplAnalysisException {
+		listRuns = iplAnalyser.getSortedDataByField(listRuns, SortingFieldType.BOUNDARIES);
+		System.out.println("Player With Max Boundaries; " + listRuns.get(0));
+		assertEquals(83, Double.valueOf(listRuns.get(0).getFours()) + Double.valueOf(listRuns.get(0).getSixes()));
 	}
-	
+
 	/**
-	 * @throws IplAnalysisException
-	 * Checking BEstStrikeRate with Max Boundaries
+	 * @throws IplAnalysisException Checking BEstStrikeRate with Max Boundaries
 	 */
 	@Test
 	public void givenCSVRunsFile_ShouldReturnBestStrikeRateWIthBoundaries() throws IplAnalysisException {
-		listRuns = iplAnalyser.getSortedDataByField(listRuns,SortingFieldType.BEST_STRIKERATE_WITH_BOUNDARIES);
-		System.out.println("Player With BEstStrikeRate and Max Boundaries; "+listRuns.get(0));
+		listRuns = iplAnalyser.getSortedDataByField(listRuns, SortingFieldType.BEST_STRIKERATE_WITH_BOUNDARIES);
+		System.out.println("Player With BEstStrikeRate and Max Boundaries; " + listRuns.get(0));
 		assertEquals("Andre Russell", listRuns.get(0).getPlayer());
 	}
-	
-	
+
+	/**
+	 * @throws IplAnalysisException GreatAveragesWithStrikeRate
+	 */
+	@Test
+	public void givenCSVRunsFile_ShouldReturnGreatAveragesWithStrikeRate() throws IplAnalysisException {
+		listRuns = iplAnalyser.getSortedDataByField(listRuns, SortingFieldType.GREAT_AVERAGE_WITH_STRIKERATE);
+		System.out.println("Player With Great Average and Max Strike Rate; " + listRuns.get(0));
+		assertEquals("MS Dhoni", listRuns.get(0).getPlayer());
+	}
+
+	/**
+	 * @throws IplAnalysisException MAXRunsWithAverage
+	 */
+	@Test
+	public void givenCSVRunsFile_ShouldReturnMAXRunsWithAverage() throws IplAnalysisException {
+		listRuns = iplAnalyser.getSortedDataByField(listRuns, SortingFieldType.MAX_RUNS_WITH_BEST_AVERAGE);
+		System.out.println("Player With Great Average and Max Strike Rate; " + listRuns.get(0));
+		assertEquals("David Warner", listRuns.get(0).getPlayer());
+	}
 
 }
