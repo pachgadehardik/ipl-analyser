@@ -50,6 +50,41 @@ public enum SortingFieldType {
 			return comparator;
 		}
 
+	},
+
+	GREAT_AVERAGE_WITH_STRIKERATE {
+
+		@Override
+		public Comparator<MostRuns> getComparator() {
+			Comparator<MostRuns> comparator = AVERAGESCORE.getComparator().thenComparing(STRIKERATE.getComparator());
+			return comparator;
+		}
+
+	},
+	
+	MAX_RUNS{
+
+		@Override
+		public Comparator<MostRuns> getComparator() {
+			Comparator<MostRuns> comparator = Comparator.comparing(obj -> {
+				if (((MostRuns) obj).getRuns().contains("-")) {
+					((MostRuns) obj).setRuns("0");
+				}
+				return Float.parseFloat(((MostRuns) obj).getRuns());
+			});
+			return comparator.reversed();
+		}
+		
+	},
+	
+	MAX_RUNS_WITH_BEST_AVERAGE{
+
+		@Override
+		public Comparator<MostRuns> getComparator() {
+			Comparator<MostRuns> comparator = MAX_RUNS.getComparator().thenComparing(AVERAGESCORE.getComparator());
+			return comparator;
+		}
+		
 	};
 
 	public abstract Comparator<MostRuns> getComparator();
