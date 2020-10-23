@@ -1,4 +1,4 @@
-package com.capg.iplanalysis.ipl_analysis;
+package com.capg.iplanalysis;
 
 /**
  * Hello world!
