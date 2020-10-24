@@ -3,6 +3,7 @@ package com.capg.iplanalysis.enums;
 import java.util.Comparator;
 
 import com.capg.iplanalysis.Pojos.MostRuns;
+import com.capg.iplanalysis.Pojos.MostWickets;
 
 public enum SortingFieldType {
 	AVERAGESCORE {
@@ -45,8 +46,9 @@ public enum SortingFieldType {
 	BEST_STRIKERATE_WITH_BOUNDARIES {
 
 		@Override
-		public Comparator<MostRuns> getComparator() {
-			Comparator<MostRuns> comparator = BOUNDARIES.getComparator().thenComparing(STRIKERATE.getComparator());
+		public <T> Comparator<T> getComparator() {
+			Comparator<T> comparator = (Comparator<T>) BOUNDARIES.getComparator()
+					.thenComparing(STRIKERATE.getComparator());
 			return comparator;
 		}
 
@@ -55,14 +57,15 @@ public enum SortingFieldType {
 	GREAT_AVERAGE_WITH_STRIKERATE {
 
 		@Override
-		public Comparator<MostRuns> getComparator() {
-			Comparator<MostRuns> comparator = AVERAGESCORE.getComparator().thenComparing(STRIKERATE.getComparator());
+		public <T> Comparator<T> getComparator() {
+			Comparator<T> comparator = (Comparator<T>) AVERAGESCORE.getComparator()
+					.thenComparing(STRIKERATE.getComparator());
 			return comparator;
 		}
 
 	},
-	
-	MAX_RUNS{
+
+	MAX_RUNS {
 
 		@Override
 		public Comparator<MostRuns> getComparator() {
@@ -74,18 +77,35 @@ public enum SortingFieldType {
 			});
 			return comparator.reversed();
 		}
-		
+
 	},
-	
-	MAX_RUNS_WITH_BEST_AVERAGE{
+
+	MAX_RUNS_WITH_BEST_AVERAGE {
 
 		@Override
-		public Comparator<MostRuns> getComparator() {
-			Comparator<MostRuns> comparator = MAX_RUNS.getComparator().thenComparing(AVERAGESCORE.getComparator());
+		public <T> Comparator<T> getComparator() {
+			@SuppressWarnings("unchecked")
+			Comparator<T> comparator = (Comparator<T>) MAX_RUNS.getComparator()
+					.thenComparing(AVERAGESCORE.getComparator());
 			return comparator;
 		}
-		
+
+	},
+
+	BOWLING_AVERAGE {
+
+		@Override
+		public Comparator<MostWickets> getComparator() {
+			Comparator<MostWickets> comparator = Comparator.comparing(obj -> {
+				if (((MostWickets) obj).getAvg().contains("-")) {
+					((MostWickets) obj).setAvg("99999");
+				}
+				return Float.parseFloat(((MostWickets) obj).getAvg());
+			});
+			return comparator;
+		}
+
 	};
 
-	public abstract Comparator<MostRuns> getComparator();
+	public abstract <T> Comparator<T> getComparator();
 }
