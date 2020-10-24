@@ -56,10 +56,9 @@ public class IplAnalyser<T> {
 
 	}
 
-	public List<T> getSortedDataByField(List<T> censusCSVList, SortingFieldType fieldType)
+	public List<T> getSortedDataByField(List<T> playerList, SortingFieldType fieldType)
 			throws IplAnalysisException {
-
-		if (playerStatsList == null || playerStatsList.size() == 0)
+		if (playerList == null || playerList.size() == 0)
 			throw new IplAnalysisException(IplExceptionType.OTHER_TYPE, "DATA is Empty");
 		Collections.sort(playerStatsList, fieldType.getComparator());
 		return (List<T>) playerStatsList;
