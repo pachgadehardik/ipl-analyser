@@ -45,6 +45,7 @@ public enum SortingFieldType {
 
 	BEST_STRIKERATE_WITH_BOUNDARIES {
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public <T> Comparator<T> getComparator() {
 			Comparator<T> comparator = (Comparator<T>) BOUNDARIES.getComparator()
@@ -56,6 +57,7 @@ public enum SortingFieldType {
 
 	GREAT_AVERAGE_WITH_STRIKERATE {
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public <T> Comparator<T> getComparator() {
 			Comparator<T> comparator = (Comparator<T>) AVERAGESCORE.getComparator()
@@ -78,6 +80,28 @@ public enum SortingFieldType {
 			return comparator.reversed();
 		}
 
+	},
+	
+	MAX_HUNDREDS{
+
+		@Override
+		public Comparator<MostRuns> getComparator() {
+			Comparator<MostRuns> comparator = Comparator
+					.comparing(obj -> Double.parseDouble(obj.getHundreds()));
+			return comparator.reversed();
+		}
+		
+	},
+	
+	ZERO_HUNDREDS_FIFTYS{
+
+		@Override
+		public Comparator<MostRuns> getComparator() {
+			Comparator<MostRuns> comparator = Comparator
+					.comparing(obj -> Double.parseDouble(obj.getHundreds()) + Double.parseDouble(obj.getFiftys()));
+			return comparator;
+		}
+		
 	},
 
 	MAX_RUNS_WITH_BEST_AVERAGE {
@@ -105,7 +129,95 @@ public enum SortingFieldType {
 			return comparator;
 		}
 
-	};
+	}, BOWLING_SR{
+
+		@Override
+		public Comparator<MostWickets> getComparator() {
+			Comparator<MostWickets> comparator = Comparator.comparing(obj -> {
+				if (((MostWickets) obj).getSr().contains("-")) {
+					((MostWickets) obj).setSr("9999");
+				}
+				return Float.parseFloat(((MostWickets) obj).getSr());
+			});
+			return comparator;
+		}
+		
+	}, ECONOMY_RATE{
+
+		@Override
+		public Comparator<MostWickets> getComparator() {
+			Comparator<MostWickets> comparator = Comparator.comparing(obj -> Float.parseFloat(obj.getEcon()));
+			return comparator;
+		}
+		
+	},
+	FIVEWICKET_FOURWICKET{
+
+		@Override
+		public Comparator<MostWickets> getComparator() {
+			Comparator<MostWickets> comparator = Comparator
+					.comparing(obj -> Double.parseDouble(obj.getFiveWickets()) + Double.parseDouble(obj.getFourWickets()));
+			return comparator.reversed();
+		}
+		
+	},
+	
+	STRIKE_RATE_WITH_5W4W{
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public <T> Comparator<T> getComparator() {
+			Comparator<T> comparator = (Comparator<T>) FIVEWICKET_FOURWICKET.getComparator()
+					.thenComparing(BOWLING_SR.getComparator());
+			return comparator;
+		}
+		
+	},
+	BOWLING_AVERAGE_WITH_SR{
+		@SuppressWarnings("unchecked")
+		@Override
+		public <T> Comparator<T> getComparator() {
+			Comparator<T> comparator = (Comparator<T>) BOWLING_SR.getComparator()
+					.thenComparing(BOWLING_AVERAGE.getComparator());
+			return comparator;
+		}
+	},
+	MAXIMUM_WICKETS{
+		@Override
+		public Comparator<MostWickets> getComparator() {
+			Comparator<MostWickets> comparator = Comparator
+					.comparing(obj -> Integer.parseInt(obj.getWkts()));
+			return comparator.reversed();
+		}
+	},
+	MAXIMUM_WICKETS_WITH_AVERAGE{
+		@SuppressWarnings("unchecked")
+		@Override
+		public <T> Comparator<T> getComparator() {
+			Comparator<T> comparator = (Comparator<T>) BOWLING_AVERAGE.getComparator()
+					.thenComparing(MAXIMUM_WICKETS.getComparator());
+			return comparator;
+		}
+	},
+	MAXIMUM_HUNDREDS_WITH_BESTAVG{
+		@SuppressWarnings("unchecked")
+		@Override
+		public <T> Comparator<T> getComparator() {
+			Comparator<T> comparator = (Comparator<T>) MAX_HUNDREDS.getComparator()
+					.thenComparing(AVERAGESCORE.getComparator());
+			return comparator;
+		}
+	},
+	ZERO_HUNDREDSFIFTYS_BEST_AVG{
+		@SuppressWarnings("unchecked")
+		@Override
+		public <T> Comparator<T> getComparator() {
+			Comparator<T> comparator = (Comparator<T>) ZERO_HUNDREDS_FIFTYS.getComparator()
+					.thenComparing(AVERAGESCORE.getComparator());
+			return comparator;
+		}
+	}
+	;
 
 	public abstract <T> Comparator<T> getComparator();
 }
