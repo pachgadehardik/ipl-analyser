@@ -95,5 +95,28 @@ public class IPLBattingAnalyserTest {
 		System.out.println("Player With Great Average and Max Strike Rate; " + listRuns.get(0));
 		assertEquals("David Warner", listRuns.get(0).getPlayer());
 	}
+	
+	/**
+	 * @throws IplAnalysisException
+	 * MAX100sWithBestAverage
+	 */
+	@Test
+	public void givenCSVRunsFile_ShouldReturnMAX100sWithBestAverage() throws IplAnalysisException {
+		listRuns = iplAnalyser.getSortedDataByField(listRuns, SortingFieldType.MAXIMUM_HUNDREDS_WITH_BESTAVG);
+		System.out.println("Player With MAX 100s and Max Avg: " + listRuns.get(0));
+		assertEquals("David Warner", listRuns.get(0).getPlayer());
+	}
+	
+	/**
+	 * @throws IplAnalysisException
+	 * BestAverageWithoutCenturies
+	 */
+	@Test
+	public void givenCSVRunsFile_ShouldReturnPlayersWithBestAverageWithoutCenturies() throws IplAnalysisException {
+		listRuns = iplAnalyser.getSortedDataByField(listRuns, SortingFieldType.ZERO_HUNDREDSFIFTYS_BEST_AVG);
+		System.out.println("Player With 0 100s and Max Avg: " + listRuns.get(0));
+		assertEquals("Marcus Stoinis", listRuns.get(0).getPlayer());
+	}
+	
 
 }
