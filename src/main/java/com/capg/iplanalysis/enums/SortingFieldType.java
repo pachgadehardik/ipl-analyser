@@ -122,7 +122,7 @@ public enum SortingFieldType implements ISorting {
 		@Override
 		public Comparator<MostWickets> getComparator() {
 			Comparator<MostWickets> comparator = Comparator.comparing(obj -> {
-				if (((MostWickets) obj).getAvg().contains("-")) {
+				if (((MostWickets) obj).getAvg().contains("-") || ((MostWickets) obj).getAvg().contains("0")) {
 					((MostWickets) obj).setAvg("99999");
 				}
 				return Float.parseFloat(((MostWickets) obj).getAvg());

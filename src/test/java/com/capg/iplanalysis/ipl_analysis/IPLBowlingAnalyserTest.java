@@ -23,8 +23,8 @@ public class IPLBowlingAnalyserTest {
 
 	@Before
 	public void init() throws IplAnalysisException {
-		iplAnalyser = new IplAnalyser(PlayerType.BOWLER);
-		listWickets = iplAnalyser.loadCSVFile(IPL_MOST_WICKETS_CSV_FILE_PATH);
+		iplAnalyser = new IplAnalyser();
+		listWickets = iplAnalyser.loadCSVFile(IPL_MOST_WICKETS_CSV_FILE_PATH,PlayerType.BOWLER);
 	}
 
 	@Test

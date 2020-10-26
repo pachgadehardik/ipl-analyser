@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import com.capg.iplanalysis.Exceptions.IplAnalysisException;
 import com.capg.iplanalysis.Pojos.MostRuns;
-import com.capg.iplanalysis.Pojos.MostWickets;
 import com.capg.iplanalysis.Service.IplAnalyser;
 import com.capg.iplanalysis.enums.PlayerType;
 import com.capg.iplanalysis.enums.SortingFieldType;
@@ -24,8 +23,8 @@ public class IPLBattingAnalyserTest {
 
 	@BeforeEach
 	public void init() throws IplAnalysisException {
-		iplAnalyser = new IplAnalyser(PlayerType.BATSMAN);
-		listRuns = iplAnalyser.loadCSVFile(IPL_MOST_RUNS_CSV_FILE_PATH);
+		iplAnalyser = new IplAnalyser();
+		listRuns = iplAnalyser.loadCSVFile(IPL_MOST_RUNS_CSV_FILE_PATH,PlayerType.BATSMAN);
 	}
 
 	/**

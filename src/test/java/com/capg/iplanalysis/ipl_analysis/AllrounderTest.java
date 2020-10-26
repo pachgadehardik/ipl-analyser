@@ -29,8 +29,8 @@ public class AllrounderTest {
 //	
 	@BeforeClass
 	public static void setup() throws IplAnalysisException  {
-		batsmenList = new IplAnalyser(PlayerType.BATSMAN).loadCSVFile(IPL_MOST_RUNS_CSV_FILE_PATH);
-		bowlersList =  new IplAnalyser(PlayerType.BOWLER).loadCSVFile(IPL_MOST_WICKETS_CSV_FILE_PATH);
+		batsmenList = new IplAnalyser().loadCSVFile(IPL_MOST_RUNS_CSV_FILE_PATH,PlayerType.BATSMAN);
+		bowlersList =  new IplAnalyser().loadCSVFile(IPL_MOST_WICKETS_CSV_FILE_PATH,PlayerType.BOWLER);
 		System.out.println(batsmenList);
 	}
 	
@@ -59,7 +59,7 @@ public class AllrounderTest {
 		playerArr = (Player[]) new IplAnalyser().getSortedDataByField(Arrays.asList(playerArr), PlayerEnum.ALLROUNDER_WITH_AVERAGES)
 				.toArray();
 		System.out.println(playerArr[0].getBatsman().getAvg());
-		assertEquals("Andre Russel", playerArr[0].getBatsman().getPlayer());
+		assertEquals("Krishnappa Gowtham", playerArr[0].getBatsman().getPlayer());
 	}
 	
 }
