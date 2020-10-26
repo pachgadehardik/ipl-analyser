@@ -55,7 +55,9 @@ public class MostRuns {
 		this.not_out = not_out;
 	}
 	public String getRuns() {
-		return runs;
+		if(runs.contains("-"))
+			this.runs = "0";
+		return this.runs;
 	}
 	public void setRuns(String runs) {
 		this.runs = runs;
@@ -70,7 +72,7 @@ public class MostRuns {
 		return avg;
 	}
 	public void setAvg(String avg) {
-		this.avg = avg;
+		this.avg = avg.contains("-") ? "0" : avg;
 	}
 	public String getBf() {
 		return bf;

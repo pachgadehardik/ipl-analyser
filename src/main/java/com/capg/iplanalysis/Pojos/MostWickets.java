@@ -66,10 +66,11 @@ public class MostWickets {
 		this.bbi = bbi;
 	}
 	public String getAvg() {
+		
 		return avg;
 	}
 	public void setAvg(String avg) {
-		this.avg = avg;
+		this.avg = avg.contains("-") ? "0" : avg;
 	}
 	public String getEcon() {
 		return econ;
