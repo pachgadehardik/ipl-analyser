@@ -4,8 +4,9 @@ import java.util.Comparator;
 
 import com.capg.iplanalysis.Pojos.MostRuns;
 import com.capg.iplanalysis.Pojos.MostWickets;
+import com.capg.iplanalysis.interfaces.ISorting;
 
-public enum SortingFieldType {
+public enum SortingFieldType implements ISorting {
 	AVERAGESCORE {
 		@Override
 		public Comparator<MostRuns> getComparator() {
@@ -216,8 +217,25 @@ public enum SortingFieldType {
 					.thenComparing(AVERAGESCORE.getComparator());
 			return comparator;
 		}
-	}
-	;
+	}, 
+	BATSMAN_PLAYERNAME{
 
-	public abstract <T> Comparator<T> getComparator();
+		@Override
+		public Comparator<MostRuns> getComparator() {
+			Comparator<MostRuns> comparator = Comparator.comparing(obj -> obj.getPlayer());
+			return comparator;
+		}
+		
+	},
+	BOWLER_PLAYERNAME{
+
+		@Override
+		public Comparator<MostWickets> getComparator() {
+			Comparator<MostWickets> comparator = Comparator.comparing(obj -> obj.getPlayer());
+			return comparator;
+		}
+		
+	};
+
+	
 }
