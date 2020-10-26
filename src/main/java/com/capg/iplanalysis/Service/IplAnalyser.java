@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -17,8 +20,11 @@ import com.capg.iplanalysis.Exceptions.IplAnalysisException;
 import com.capg.iplanalysis.Exceptions.IplAnalysisException.IplExceptionType;
 import com.capg.iplanalysis.Pojos.MostRuns;
 import com.capg.iplanalysis.Pojos.MostWickets;
+import com.capg.iplanalysis.Pojos.Player;
 import com.capg.iplanalysis.enums.PlayerType;
 import com.capg.iplanalysis.enums.SortingFieldType;
+import com.capg.iplanalysis.interfaces.ISorting;
+import com.google.gson.Gson;
 
 public class IplAnalyser<T> {
 
@@ -28,6 +34,10 @@ public class IplAnalyser<T> {
 
 	public IplAnalyser(PlayerType playerType) {
 		this.playerType = playerType;
+	}
+	
+	public IplAnalyser() {
+		
 	}
 
 	public <T> List<T> loadCSVFile(String iplMostRunsCsvFilePath) throws IplAnalysisException {
@@ -56,12 +66,39 @@ public class IplAnalyser<T> {
 
 	}
 
-	public List<T> getSortedDataByField(List<T> playerList, SortingFieldType fieldType)
+	public List<T> getSortedDataByField(List<T> playerList, ISorting fieldType)
 			throws IplAnalysisException {
 		if (playerList == null || playerList.size() == 0)
 			throw new IplAnalysisException(IplExceptionType.OTHER_TYPE, "DATA is Empty");
-		Collections.sort(playerStatsList, fieldType.getComparator());
-		return (List<T>) playerStatsList;
+		Collections.sort(playerList, fieldType.getComparator());
+		return (List<T>) playerList;
 	}
 
+
+	public <T> String getCommonData(List<MostRuns> batsmenList, List<MostWickets> bowlersList,
+			ISorting batsmanPlayername, ISorting bowlerPlayername) throws IplAnalysisException {
+			
+		batsmenList = (List<MostRuns>)new IplAnalyser().getSortedDataByField((List<T>)batsmenList, (ISorting) batsmanPlayername);
+		bowlersList = (List<MostWickets>)new IplAnalyser().getSortedDataByField((List<T>) bowlersList,(ISorting) bowlerPlayername);
+		
+		
+		List<Player> playerList = new ArrayList<Player>();
+		int index = 0;
+		for(MostRuns batsmen:batsmenList) {
+			
+			for(int i= index;i<bowlersList.size();i++) {
+				
+				if(batsmen.getPlayer().contains(bowlersList.get(i).getPlayer())) {
+					Player player = new Player(batsmen, bowlersList.get(i));
+					playerList.add(player);
+					index =i+1;
+				}
+				
+			}
+			
+		}
+		return new Gson().toJson(playerList);
+	}
+
+	
 }
